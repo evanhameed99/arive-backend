@@ -3,7 +3,7 @@ import mongoose, { ConnectOptions } from 'mongoose';
 import bodyParser from 'body-parser';
 import mongoDB from './databases/mongo_connection';
 import usersRouter from './routes/users';
-
+import hobbiesRouter from './routes/hobbies';
 const app = express();
 const port = 3000;
 
@@ -24,3 +24,4 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', usersRouter);
+app.use('/hobbies', hobbiesRouter);

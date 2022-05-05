@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongo_connection_1 = __importDefault(require("./databases/mongo_connection"));
 const users_1 = __importDefault(require("./routes/users"));
+const hobbies_1 = __importDefault(require("./routes/hobbies"));
 const app = (0, express_1.default)();
 const port = 3000;
 app.listen(port, () => {
@@ -19,3 +20,4 @@ app.get('/', (req, res) => {
     res.send('Hello World!!!!');
 });
 app.use('/users', users_1.default);
+app.use('/hobbies', hobbies_1.default);
