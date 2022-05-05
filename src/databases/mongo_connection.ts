@@ -1,7 +1,7 @@
 
 import mongoose, { ConnectOptions } from 'mongoose';
 
-mongoose.connect('mongodb+srv://evan:evan123456789@cluster0.akxqt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://evan:evan123456789@cluster0.akxqt.mongodb.net/usersDB?retryWrites=true&w=majority', {
     useNewUrlParser: true,
 } as ConnectOptions, (err) => {
     if (err) {
