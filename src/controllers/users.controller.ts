@@ -5,19 +5,15 @@ import { validationResult } from 'express-validator';
 import { IUser } from '../interfaces/users/users';
 
 
-export const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
+export const getAllUsers = async (req: Request, res: Response)  : Promise<any> => {
 
-    User.find()
-        .then(users => {
-            res.json(users)
-        })
-        .catch(err => {
-            return next(err)
-        })
+    const result  = await User.find();
+
+    return res.json({ result });
 
 }
 
-export const createUser = (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response): Promise<any> => {
 
 
     const errors = validationResult(req);
@@ -26,14 +22,12 @@ export const createUser = (req: Request, res: Response) => {
     }
 
     const user = new User(req.body);
-    user.save()
-        .then((user: any) => {
-            res.json({ user });
-        })
-        .catch((err: any) => {
-            res.status(500).send(err);
-        }
-        )
+    try {
+        const result = await user.save();
+        return res.json(result);
+    } catch (error: any) {
+        return res.status(500).json({ error: error.message });
+    }
 
 }
 

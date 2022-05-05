@@ -42,7 +42,6 @@ export const getUserHobbies = async (req: Request, res: Response): Promise<any> 
         });
     }
     const hobbies = await Hobbie.find({ _id: { $in: user.hobbies } });
-    console.log('hobbies', hobbies)
     return res.json({ hobbies });
 
 
@@ -52,8 +51,6 @@ export const deleteUserHobbie = async (req: Request, res: Response): Promise<any
 
     const { _id } = req.params;
     const { hobbieId } = req.body;
-
-    console.log('hobbieId', hobbieId)
 
     const [user, hobbie] = await Promise.all([User.findById(_id), Hobbie.deleteOne({ _id: new Types.ObjectId(hobbieId) })]);
 
