@@ -6,15 +6,17 @@ import usersRouter from './routes/users';
 import hobbiesRouter from './routes/hobbies';
 import swaggerDocs from './utils/swagger'
 import * as dotenv from "dotenv";
+import 'dotenv/config';
+
 
 const app = express();
-const port = 3000;
+const port  = process.env.PORT || 3000;
 
-dotenv.config({ path: __dirname+'/.env' });
+
 
 app.listen(port, () => {
   console.log(`Express is listening at http://localhost:${port}`);
-  swaggerDocs(app, port);
+  swaggerDocs(app, port as number );
 });
 
 app.use(express.json());
