@@ -10,13 +10,13 @@ import 'dotenv/config';
 
 
 const app = express();
-const port  = process.env.PORT || 3000;
+const port  = process.env.PORT ;
 
 
 
 app.listen(port, () => {
   console.log(`Express is listening at http://localhost:${port}`);
-  swaggerDocs(app, port as number );
+  swaggerDocs(app, port as number);
 });
 
 app.use(express.json());
