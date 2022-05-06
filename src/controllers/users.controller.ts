@@ -6,7 +6,7 @@ import { IUserDocument, IUserModel } from '../interfaces/users/users';
 
 
 export const getAllUsers = async (req: Request, res: Response) => {
-    const result = (await User.find()) as IUserDocument[];
+    const result = (await User.find().sort({ 'createdAt': -1 })) as IUserDocument[];
     return res.json({ result });
 }
 
