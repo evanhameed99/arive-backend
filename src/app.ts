@@ -5,9 +5,12 @@ import mongoDB from './databases/mongo_connection';
 import usersRouter from './routes/users';
 import hobbiesRouter from './routes/hobbies';
 import swaggerDocs from './utils/swagger'
+import * as dotenv from "dotenv";
+
 const app = express();
 const port = 3000;
 
+dotenv.config({ path: __dirname+'/.env' });
 
 app.listen(port, () => {
   console.log(`Express is listening at http://localhost:${port}`);

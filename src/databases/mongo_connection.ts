@@ -1,7 +1,7 @@
 
 import mongoose, { ConnectOptions } from 'mongoose';
-
-mongoose.connect('mongodb+srv://evan:evan123456789@cluster0.akxqt.mongodb.net/usersDB?retryWrites=true&w=majority', {
+import 'dotenv/config';
+mongoose.connect(process.env.MONGO_URI as string , {
     useNewUrlParser: true,
 } as ConnectOptions, (err) => {
     if (err) {
