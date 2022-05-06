@@ -28,7 +28,28 @@ const Schema = mongoose.Schema;
  *              type: string
  *        createdAt:
  *          type: string
+ *    GetAllUsersResponse:
+ *      type: object  
+ *      properties: 
+ *        result:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              name:
+ *                type: string
+ *              _id:
+ *                type: string
+ *              hobbies:
+ *                type: array
+ *                items: 
+ *                    type: string
+ *              createdAt:
+ *                type: string
  */
+
+
+
 
 const userShema = new Schema({
     name: {
