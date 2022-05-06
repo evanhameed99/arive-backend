@@ -4,5 +4,8 @@ export interface IUser {
   hobbies?: string[];
   createdAt: Date;
 }
+
+export class mongoID extends Types.ObjectId {}
+
 export interface IUserDocument extends IUser, Document {}
 export interface IUserModel extends Model<IUserDocument> {}

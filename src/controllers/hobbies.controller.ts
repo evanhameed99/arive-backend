@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import mongoose, { Types } from "mongoose";
 import Hobbie from '../models/hobbies.model';
 import { validationResult } from 'express-validator';
-import { IHobbie  , IHobbieDocument} from '../interfaces/hobbies/hobbies';
+import { IHobbie, IHobbieDocument } from '../interfaces/hobbies/hobbies';
 import User from '../models/user.model';
 
 
@@ -32,17 +32,24 @@ export const createUserHobbie = async (req: Request, res: Response): Promise<any
 
 export const getUserHobbies = async (req: Request, res: Response): Promise<any> => {
 
-    const _id: any = req.params;
-    const user = await User.findById(_id);
-    if (!user) {
-        return res.status(404).json({
-            message: 'User not found'
+    try {
+        const _id: any = req.params;
+
+
+        const user = await User.findById(_id)
+        if (!user) {
+            return res.status(404).json({
+                message: 'User not found'
+            });
+        }
+        const hobbies = (await Hobbie.find({ _id: { $in: user.hobbies } })) as IHobbieDocument[];
+        return res.json({ hobbies });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Internal server error'
         });
     }
-    const hobbies = (await Hobbie.find({ _id: { $in: user.hobbies } })) as IHobbieDocument[];
-    return res.json({ hobbies });
-
-
 }
 
 export const deleteUserHobbie = async (req: Request, res: Response): Promise<any> => {

@@ -31,15 +31,22 @@ const createUserHobbie = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.createUserHobbie = createUserHobbie;
 const getUserHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const _id = req.params;
-    const user = yield user_model_1.default.findById(_id);
-    if (!user) {
-        return res.status(404).json({
-            message: 'User not found'
+    try {
+        const _id = req.params;
+        const user = yield user_model_1.default.findById(_id);
+        if (!user) {
+            return res.status(404).json({
+                message: 'User not found'
+            });
+        }
+        const hobbies = (yield hobbies_model_1.default.find({ _id: { $in: user.hobbies } }));
+        return res.json({ hobbies });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: 'Internal server error'
         });
     }
-    const hobbies = (yield hobbies_model_1.default.find({ _id: { $in: user.hobbies } }));
-    return res.json({ hobbies });
 });
 exports.getUserHobbies = getUserHobbies;
 const deleteUserHobbie = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
