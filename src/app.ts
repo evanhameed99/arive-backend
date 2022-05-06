@@ -22,7 +22,7 @@ app.listen(port, () => {
 app.use(express.json());
 
 mongoDB.once('open', () => {
-  console.log('Connected to database');
+  console.log('Connected to database!');
 });
 
 /**
