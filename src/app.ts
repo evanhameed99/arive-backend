@@ -5,6 +5,7 @@ import mongoDB from './databases/mongo_connection';
 import usersRouter from './routes/users';
 import hobbiesRouter from './routes/hobbies';
 import swaggerDocs from './utils/swagger'
+import cors from 'cors';
 import 'dotenv/config';
 
 
@@ -19,6 +20,24 @@ app.listen(port, () => {
 });
 
 app.use(express.json());
+
+
+const options: cors.CorsOptions = {
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+  ],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  origin: "*",
+  preflightContinue: false,
+};
+
+app.use(cors(options));
+
 
 mongoDB.once('open', () => {
   console.log('Connected to database!');
