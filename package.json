@@ -5,8 +5,9 @@
   "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
-    "start": "npx tsc && ts-node-dev src/app.ts",
+    "start": "tsc && ts-node-dev src/app.ts",
     "dev": " ts-node-dev src/app.ts",
+    "postinstall": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
