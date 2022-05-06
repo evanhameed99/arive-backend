@@ -16,7 +16,7 @@ const port  = process.env.PORT ;
 
 app.listen(port, () => {
   console.log(`Express is listening at http://localhost:${port}`);
-  swaggerDocs(app, port as number);
+  swaggerDocs(app, port as any);
 });
 
 app.use(express.json());
