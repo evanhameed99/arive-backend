@@ -23,27 +23,22 @@ const createUserHobbie = (req, res) => __awaiter(void 0, void 0, void 0, functio
         return res.status(400).json({ errors: errors.array() });
     }
     const { _id } = req.params;
-    const { name, passionLevel, year } = req.body;
-    const hobbie = new hobbies_model_1.default({
-        name,
-        passionLevel,
-        year,
-        createdAt: Date.now(),
-    });
+    const hobbyBody = req.body;
+    const hobbie = new hobbies_model_1.default(Object.assign(Object.assign({}, hobbyBody), { createdAt: Date.now() }));
     const hobbieResult = yield hobbie.save();
-    const userResult = yield user_model_1.default.findByIdAndUpdate(_id, { $push: { "hobbies": hobbieResult._id } }, { new: true });
+    yield user_model_1.default.findByIdAndUpdate(_id, { $push: { "hobbies": hobbieResult._id } }, { new: true });
     return res.json({ hobbieResult });
 });
 exports.createUserHobbie = createUserHobbie;
 const getUserHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { _id } = req.params;
+    const _id = req.params;
     const user = yield user_model_1.default.findById(_id);
     if (!user) {
         return res.status(404).json({
             message: 'User not found'
         });
     }
-    const hobbies = yield hobbies_model_1.default.find({ _id: { $in: user.hobbies } });
+    const hobbies = (yield hobbies_model_1.default.find({ _id: { $in: user.hobbies } }));
     return res.json({ hobbies });
 });
 exports.getUserHobbies = getUserHobbies;

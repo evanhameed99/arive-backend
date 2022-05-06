@@ -17,7 +17,6 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const express_validator_1 = require("express-validator");
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = (yield user_model_1.default.find());
-    console.log('result', result);
     return res.json({ result });
 });
 exports.getAllUsers = getAllUsers;
@@ -26,9 +25,10 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const user = new user_model_1.default(req.body);
+    const userBody = (req.body);
+    const user = new user_model_1.default(userBody);
     try {
-        const result = yield user.save();
+        const result = (yield user.save());
         return res.json(result);
     }
     catch (error) {
