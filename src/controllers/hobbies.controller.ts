@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import mongoose, { Types } from "mongoose";
 import Hobbie from '../models/hobbies.model';
 import { validationResult } from 'express-validator';
-import { IUser } from '../interfaces/users/users';
+import { IHobbie  , IHobbieDocument} from '../interfaces/hobbies/hobbies';
 import User from '../models/user.model';
 
 
@@ -14,18 +14,16 @@ export const createUserHobbie = async (req: Request, res: Response): Promise<any
     }
 
     const { _id } = req.params;
-    const { name, passionLevel, year } = req.body;
+    const hobbyBody: IHobbie = req.body;
 
     const hobbie = new Hobbie({
-        name,
-        passionLevel,
-        year,
+        ...hobbyBody,
         createdAt: Date.now(),
     })
 
     const hobbieResult = await hobbie.save();
-    const userResult = await User.findByIdAndUpdate(_id, { $push: { "hobbies": hobbieResult._id } }, { new: true });
 
+    await User.findByIdAndUpdate(_id, { $push: { "hobbies": hobbieResult._id } }, { new: true });
 
     return res.json({ hobbieResult })
 
@@ -34,14 +32,14 @@ export const createUserHobbie = async (req: Request, res: Response): Promise<any
 
 export const getUserHobbies = async (req: Request, res: Response): Promise<any> => {
 
-    const { _id } = req.params;
+    const _id: any = req.params;
     const user = await User.findById(_id);
     if (!user) {
         return res.status(404).json({
             message: 'User not found'
         });
     }
-    const hobbies = await Hobbie.find({ _id: { $in: user.hobbies } });
+    const hobbies = (await Hobbie.find({ _id: { $in: user.hobbies } })) as IHobbieDocument[];
     return res.json({ hobbies });
 
 

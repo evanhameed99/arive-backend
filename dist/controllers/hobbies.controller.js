@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUserHobbie = exports.getUserHobbies = exports.createUserHobbie = void 0;
+const mongoose_1 = require("mongoose");
 const hobbies_model_1 = __importDefault(require("../models/hobbies.model"));
 const express_validator_1 = require("express-validator");
 const user_model_1 = __importDefault(require("../models/user.model"));
@@ -43,25 +44,19 @@ const getUserHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     const hobbies = yield hobbies_model_1.default.find({ _id: { $in: user.hobbies } });
-    console.log('hobbies', hobbies);
     return res.json({ hobbies });
 });
 exports.getUserHobbies = getUserHobbies;
 const deleteUserHobbie = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { _id } = req.params;
     const { hobbieId } = req.body;
-    const [user, hobbie] = yield Promise.all([user_model_1.default.findById(_id), hobbies_model_1.default.findById(hobbieId)]);
+    const [user, hobbie] = yield Promise.all([user_model_1.default.findById(_id), hobbies_model_1.default.deleteOne({ _id: new mongoose_1.Types.ObjectId(hobbieId) })]);
     if (!user) {
         return res.status(404).json({
             message: 'User not found'
         });
     }
-    if (!hobbie) {
-        return res.status(404).json({
-            message: 'Hobbie not found'
-        });
-    }
-    const userResult = yield user_model_1.default.findByIdAndUpdate(_id, { $pull: { "hobbies": hobbieId } }, { new: true });
+    const userResult = yield user_model_1.default.findByIdAndUpdate(_id, { $pull: { "hobbies": new mongoose_1.Types.ObjectId(hobbieId) } }, { new: true });
     return res.json({ userResult });
 });
 exports.deleteUserHobbie = deleteUserHobbie;
