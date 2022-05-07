@@ -42,7 +42,7 @@ export const getUserHobbies = async (req: Request, res: Response): Promise<any> 
                 message: 'User not found'
             });
         }
-        const hobbies = (await Hobbie.find({ _id: { $in: user.hobbies } })) as IHobbieDocument[];
+        const hobbies = (await Hobbie.find({ _id: { $in: user.hobbies } }).sort({ 'createdAt': -1 })) as IHobbieDocument[];
         return res.json({ hobbies });
 
     } catch (error) {
