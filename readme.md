@@ -26,3 +26,4 @@ After running the app, check the terminal to see the doc url that would be somet
 ## Deployment 
 
 - The API is deployed by Heroku.
+__note__ The initial request to the API URL might take few seconds due to the initial plan of deployment in Heroku.
