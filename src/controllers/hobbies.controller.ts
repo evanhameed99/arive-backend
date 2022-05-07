@@ -55,7 +55,8 @@ export const getUserHobbies = async (req: Request, res: Response): Promise<any> 
 export const deleteUserHobbie = async (req: Request, res: Response): Promise<any> => {
 
     const { _id } = req.params;
-    const { hobbieId } = req.body;
+
+    const hobbieId = req.query.hobbieId as string;
 
     const [user, hobbie] = await Promise.all([User.findById(_id), Hobbie.deleteOne({ _id: new Types.ObjectId(hobbieId) })]);
 
